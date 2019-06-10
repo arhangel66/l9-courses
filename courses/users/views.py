@@ -1,42 +1,31 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
-from django.views.generic import DetailView, RedirectView, UpdateView
+from rest_framework import viewsets
+from rest_framework.routers import SimpleRouter
 
-User = get_user_model()
+from courses.users.models import User
 
+# Create your views here.
+from courses.users.serializers import StudentSerializer, TeacherSerializer
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-
-    model = User
-    slug_field = "username"
-    slug_url_kwarg = "username"
+router = SimpleRouter()
 
 
-user_detail_view = UserDetailView.as_view()
+class StudentViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for viewing accounts.
+    """
+
+    queryset = User.objects.filter(is_staff=False)
+    serializer_class = StudentSerializer
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for viewing accounts.
+    """
 
-    model = User
-    fields = ["name"]
-
-    def get_success_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
-
-    def get_object(self):
-        return User.objects.get(username=self.request.user.username)
+    queryset = User.objects.filter(is_staff=True)
+    serializer_class = TeacherSerializer
 
 
-user_update_view = UserUpdateView.as_view()
-
-
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-
-    permanent = False
-
-    def get_redirect_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
-
-
-user_redirect_view = UserRedirectView.as_view()
+router.register("students", StudentViewSet)
+router.register("teachers", TeacherViewSet)

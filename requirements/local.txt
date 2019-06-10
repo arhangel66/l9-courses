@@ -26,3 +26,16 @@ django-debug-toolbar==1.11  # https://github.com/jazzband/django-debug-toolbar
 django-extensions==2.1.7  # https://github.com/django-extensions/django-extensions
 django-coverage-plugin==1.6.0  # https://github.com/nedbat/django_coverage_plugin
 pytest-django==3.5.0  # https://github.com/pytest-dev/pytest-django
+
+flake8-annotations-coverage==0.0.3
+flake8-blind-except==0.1.1
+flake8-bugbear==19.3.0
+flake8-builtins==1.4.1
+flake8-commas==2.0.0
+flake8-comprehensions==2.1.0
+flake8-logging-format==0.6.0
+flake8-mypy==17.8.0
+flake8-polyfill==1.0.2
+flake8-print==3.1.0
+flake8-type-annotations==0.1.0
+flake8-variables-names==0.0.1
